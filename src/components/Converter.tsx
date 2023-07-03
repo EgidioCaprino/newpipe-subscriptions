@@ -47,9 +47,10 @@ const Converter = () => {
       <input type="file" onChange={processFile} />
       {newPipeSubscriptions && (
         <Fragment>
-          <textarea readOnly>
-            {JSON.stringify(newPipeSubscriptions, null, 2)}
-          </textarea>
+          <textarea
+            readOnly
+            value={JSON.stringify(newPipeSubscriptions, null, 2)}
+          ></textarea>
           <DownloadableFile content={blob} />
         </Fragment>
       )}
