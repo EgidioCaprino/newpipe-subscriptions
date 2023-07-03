@@ -1,4 +1,5 @@
 import { parseStringPromise } from "xml2js";
+import { Channel } from "./newpipe";
 
 interface InvidiousSubscriptions {
   opml: {
@@ -29,12 +30,12 @@ const getChannelId = (url: string) => {
   return match[1];
 };
 
-export const getChannelsData = async (xml: string) => {
+export const parseChannels = async (xml: string): Promise<Channel[]> => {
   const parsedXml: InvidiousSubscriptions = await parseStringPromise(xml);
   return parsedXml.opml.body[0].outline[0].outline.map(
     ({ $: { title, xmlUrl } }) => ({
+      id: getChannelId(xmlUrl),
       title,
-      channelId: getChannelId(xmlUrl),
     })
   );
 };
