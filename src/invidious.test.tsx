@@ -1,7 +1,7 @@
-import { getChannelsIds } from "./invidious";
+import { getChannelsData } from "./invidious";
 
-describe("getChannelsIds", () => {
-  it("provides an array of channel IDs", async () => {
+describe("getChannelsData", () => {
+  it("provides the channels IDs and titles", async () => {
     const invidiousXml = `<opml version="1.1">
         <body>
           <outline text="Invidious Subscriptions" title="Invidious Subscriptions">
@@ -12,8 +12,11 @@ describe("getChannelsIds", () => {
           </outline>
         </body>
       </opml>`;
-    const expected = ["foo", "bar"];
-    const actual = await getChannelsIds(invidiousXml);
+    const expected = [
+      { title: "foo", channelId: "foo" },
+      { title: "bar", channelId: "bar" },
+    ];
+    const actual = await getChannelsData(invidiousXml);
     expect(actual).toEqual(expected);
   });
 
@@ -29,7 +32,7 @@ describe("getChannelsIds", () => {
             </outline>
           </body>
         </opml>`;
-      return getChannelsIds(invidiousXml);
+      return getChannelsData(invidiousXml);
     }).rejects.toThrowError();
   });
 });

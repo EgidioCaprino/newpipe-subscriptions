@@ -8,6 +8,7 @@ interface InvidiousSubscriptions {
           {
             outline: {
               $: {
+                title: string;
                 xmlUrl: string;
               };
             }[];
@@ -28,9 +29,12 @@ const getChannelId = (url: string) => {
   return match[1];
 };
 
-export const getChannelsIds = async (xml: string) => {
+export const getChannelsData = async (xml: string) => {
   const parsedXml: InvidiousSubscriptions = await parseStringPromise(xml);
-  return parsedXml.opml.body[0].outline[0].outline.map(({ $: { xmlUrl } }) =>
-    getChannelId(xmlUrl)
+  return parsedXml.opml.body[0].outline[0].outline.map(
+    ({ $: { title, xmlUrl } }) => ({
+      title,
+      channelId: getChannelId(xmlUrl),
+    })
   );
 };
