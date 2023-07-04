@@ -19,12 +19,17 @@ const Converter = () => {
     const fileReader = new FileReader();
     fileReader.onload = async () => {
       if (typeof fileReader.result === "string") {
-        const channels = await parseChannels(fileReader.result);
-        const newPipeSubscriptions = createNewPipeSubscriptions(channels);
-        setNewPipeSubscriptions(newPipeSubscriptions);
-      } else {
-        setError(new Error("Invalid file loaded"));
+        try {
+          const channels = await parseChannels(fileReader.result);
+          const newPipeSubscriptions = createNewPipeSubscriptions(channels);
+          setNewPipeSubscriptions(newPipeSubscriptions);
+          setError(null);
+          return;
+        } catch (error) {
+          console.error(error);
+        }
       }
+      setError(new Error("Invalid file loaded"));
     };
     fileReader.onerror = () => {
       const error = new Error("Unable to read file");
@@ -34,27 +39,40 @@ const Converter = () => {
     fileReader.readAsText(files[0]);
   };
 
-  if (error) {
-    return <p>{error.message}</p>;
-  }
-
   const blob = new Blob([JSON.stringify(newPipeSubscriptions)], {
     type: "text/plain",
   });
 
   return (
-    <div>
-      <input type="file" onChange={processFile} />
+    <Fragment>
+      {error && <p className="text-center text-red-700">{error.message}</p>}
+      {!newPipeSubscriptions && (
+        <Fragment>
+          <p className="text-center">
+            Load the subscriptions file you exported from Invidious
+          </p>
+          <input
+            type="file"
+            onChange={processFile}
+            className="file:border file:border-solid"
+          />
+        </Fragment>
+      )}
       {newPipeSubscriptions && (
         <Fragment>
+          <p className="text-center">
+            Download and import this file in NewPipe
+          </p>
+          <DownloadableFile content={blob} />
           <textarea
             readOnly
             value={JSON.stringify(newPipeSubscriptions, null, 2)}
+            className="border-4 rounded-xl p-4 font-mono h-60"
           ></textarea>
           <DownloadableFile content={blob} />
         </Fragment>
       )}
-    </div>
+    </Fragment>
   );
 };
 
