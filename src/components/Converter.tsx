@@ -3,6 +3,7 @@
 import { ChangeEvent, Fragment, useState } from "react";
 import { parseChannels } from "@/invidious";
 import { createNewPipeSubscriptions } from "@/newpipe";
+import { logError } from "@/logs";
 import DownloadableFile from "./DownloadableFile";
 
 const Converter = () => {
@@ -14,10 +15,13 @@ const Converter = () => {
   const processFile = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     if (!files?.length) {
-      throw new Error("No file loaded");
+      const error = new Error("No file loaded");
+      logError(error);
+      setError(error);
+      return;
     }
     const fileReader = new FileReader();
-    fileReader.onload = async () => {
+    fileReader.addEventListener("load", async () => {
       if (typeof fileReader.result === "string") {
         try {
           const channels = await parseChannels(fileReader.result);
@@ -26,16 +30,17 @@ const Converter = () => {
           setError(null);
           return;
         } catch (error) {
-          console.error(error);
+          logError(error);
         }
       }
       setError(new Error("Invalid file loaded"));
-    };
-    fileReader.onerror = () => {
+    });
+    fileReader.addEventListener("error", () => {
       const error = new Error("Unable to read file");
       error.cause = fileReader.error;
+      logError(error);
       setError(error);
-    };
+    });
     fileReader.readAsText(files[0]);
   };
 
@@ -45,7 +50,11 @@ const Converter = () => {
 
   return (
     <Fragment>
-      {error && <p className="text-center text-red-700">{error.message}</p>}
+      {error && (
+        <p data-test="error-message" className="text-center text-red-700">
+          {error.message}
+        </p>
+      )}
       {!newPipeSubscriptions && (
         <Fragment>
           <p className="text-center">

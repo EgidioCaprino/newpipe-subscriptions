@@ -48,3 +48,34 @@ it("converts an Invidious subscriptions file to a NewPipe subscriptions file", a
   };
   expect(textarea?.value).toBe(JSON.stringify(expected, null, 2));
 });
+
+it("shows an error when no file is loaded", async () => {
+  const { container } = render(<Converter />);
+  const input = container.querySelector("input") as HTMLInputElement;
+  fireEvent.change(input, {
+    target: {
+      files: [],
+    },
+  });
+  await waitFor(() => {
+    const errorMessage = container.querySelector('[data-test="error-message"]');
+    expect(errorMessage).toBeTruthy();
+  });
+});
+
+it("shows an error when loaded file is invalid", async () => {
+  const invalidFile = new File(["invalid file content"], "invalid.xml", {
+    type: "text/plain",
+  });
+  const { container } = render(<Converter />);
+  const input = container.querySelector("input") as HTMLInputElement;
+  fireEvent.change(input, {
+    target: {
+      files: [invalidFile],
+    },
+  });
+  await waitFor(() => {
+    const errorMessage = container.querySelector('[data-test="error-message"]');
+    expect(errorMessage).toBeTruthy();
+  });
+});
