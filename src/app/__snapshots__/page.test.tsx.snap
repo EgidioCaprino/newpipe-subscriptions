@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the home page unchanged 1`] = `
+<div>
+  <main
+    class="flex flex-col items-center content-center space-y-8 p-24 font-sans"
+  >
+    <h1
+      class="text-xl"
+    >
+      From Invidious to NewPipe
+    </h1>
+    <p
+      class="text-center"
+    >
+      Load the subscriptions file you exported from Invidious
+    </p>
+    <input
+      class="file:border file:border-solid"
+      type="file"
+    />
+  </main>
+</div>
+`;
