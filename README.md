@@ -1,34 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NewPipe Subscriptions
 
-## Getting Started
+This is a web application for importing subscriptions into your favourite YouTube client.
 
-First, run the development server:
+> At the moment only Invidious is supported. If you need to convert a file exported from another platform, please [open a issue](https://github.com/EgidioCaprino/newpipe-subscriptions/issues/new).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## How it works
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Go to your Invidious settings and click on `Import/export data`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![Invidious settings](docs/readme-1.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. Click on `Export subscriptions as OPML`.
 
-## Learn More
+![Invidious settings](docs/readme-2.png)
 
-To learn more about Next.js, take a look at the following resources:
+3. Go to [https://newpipe-subscriptions.vercel.app/](https://newpipe-subscriptions.vercel.app/).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Upload the file you exported from Invidious.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![Upload exported file](docs/readme-3.png)
 
-## Deploy on Vercel
+5. Download the converted file.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Download converted file](docs/readme-4.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+6. Import that file in NewPipe.
