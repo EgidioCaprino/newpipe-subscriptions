@@ -2,6 +2,20 @@
 
 exports[`renders the home page unchanged 1`] = `
 <div>
+  <header
+    class="flex justify-end gap-8 p-8 text-slate-500"
+  >
+    <a
+      href="https://github.com/EgidioCaprino/newpipe-subscriptions/issues/new"
+    >
+      Support
+    </a>
+    <a
+      href="https://github.com/EgidioCaprino/newpipe-subscriptions"
+    >
+      Github
+    </a>
+  </header>
   <main
     class="flex flex-col items-center content-center space-y-8 p-24 font-sans"
   >
